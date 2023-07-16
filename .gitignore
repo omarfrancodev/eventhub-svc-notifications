@@ -142,3 +142,6 @@ docker-compose.yml
 
 # Convetional Commits
 .vscode
+
+#Firebase
+/src/config/
