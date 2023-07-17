@@ -1,7 +1,13 @@
 import express from "express";
 import bodyParser from "body-parser";
-
 import { notificationRouter } from "./notifications/infrastructure/NotificationRouter";
+
+import moment from 'moment';
+import 'moment-timezone';
+
+moment.tz.setDefault('America/Mexico_City');
+const currentDateTime = moment().format('YYYY-MM-DD HH:mm:ss');
+console.log(currentDateTime);
 
 const app = express();
 
