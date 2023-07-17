@@ -6,12 +6,12 @@ export class FindByUserIdController {
     constructor(private readonly findByUserIdUseCase: FindByUserIdUseCase) { }
 
     async run(req: Request, res: Response): Promise<Response> {
-        const userId = isNaN(Number(req.params.id)) ? null : Number(req.params.id);
-        if (!userId) {
+        const receiverId = isNaN(Number(req.params.id)) ? null : Number(req.params.id);
+        if (!receiverId) {
             return res.status(400).json({ error: 'Invalid user ID' });
         }
         try {
-            const notifications = await this.findByUserIdUseCase.run(userId);
+            const notifications = await this.findByUserIdUseCase.run(receiverId);
             if (!notifications) {
                 return res.status(404).json({ error: 'Notifications not found' });
             }

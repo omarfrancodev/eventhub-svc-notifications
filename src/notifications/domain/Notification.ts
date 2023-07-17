@@ -6,7 +6,10 @@ export class Notification extends BaseEntity {
     notificationId!: number;
 
     @Column()
-    userId!: number;
+    senderId!: number;
+    
+    @Column()
+    receiverId!: number;
 
     @Column()
     providerName!: string;

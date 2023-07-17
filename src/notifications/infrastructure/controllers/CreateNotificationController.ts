@@ -27,7 +27,8 @@ export class CreateNotificationController {
             const targetDeviceToken = formData.fcm_token;
 
             const notification = new Notification();
-            notification.userId = formData.userId;
+            notification.senderId = formData.senderId;
+            notification.receiverId = formData.receiverId;
             notification.providerName = formData.providerName;
             notification.eventName = formData.eventName;
             notification.typeNotification = formData.typeNotification;
@@ -53,6 +54,8 @@ export class CreateNotificationController {
                     body: body,
                 },
                 data: {
+                    senderId: String(notification.senderId),
+                    receiverId: String(notification.receiverId),
                     providerName: notification.providerName,
                     eventName: notification.eventName,
                 },
