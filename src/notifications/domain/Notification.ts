@@ -12,15 +12,21 @@ export class Notification extends BaseEntity {
     receiverId!: number;
 
     @Column()
+    title!: string;
+
+    @Column()
+    body!: string;
+
+    @Column()
     providerName!: string;
 
     @Column()
     eventName!: string;
 
     @Column()
-    typeNotification!: string;
+    type!: string;
 
-    @Column({ nullable: true, default: null })
+    @Column('boolean',{ nullable: true , default: null})
     status!: boolean | null;
 
     @Column({ default: () => "CURRENT_TIMESTAMP" })
