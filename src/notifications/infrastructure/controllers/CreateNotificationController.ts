@@ -1,21 +1,11 @@
 import { Request, Response } from 'express';
 import { CreateNotificationUseCase } from '../../application/CreteNotificationUseCase';
 import { Notification } from '../../domain/Notification';
-import saveLogFile from '../LogsErrorControl';
-import admin = require("firebase-admin");
 import { validationResult } from 'express-validator';
-const serviceAccount = require('../../../config/push-notification-key.json');
-
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-});
+import saveLogFile from '../LogsErrorControl';
 
 export class CreateNotificationController {
-    private fcmService: admin.messaging.Messaging;
-
-    constructor(private readonly createNotificationUseCase: CreateNotificationUseCase) {
-        this.fcmService = admin.messaging();
-    }
+    constructor(private readonly createNotificationUseCase: CreateNotificationUseCase) { }
 
     async run(req: Request, res: Response): Promise<Response> {
         const errors = validationResult(req);
@@ -23,49 +13,23 @@ export class CreateNotificationController {
             return res.status(400).json({ error: 'Invalid input data' });
         }
         try {
-            const formData = req.body;
-            const targetDeviceToken = formData.fcm_token;
-
+            const jsonData = req.body;
             const notification = new Notification();
-            notification.senderId = formData.senderId;
-            notification.receiverId = formData.receiverId;
-            notification.providerName = formData.providerName;
-            notification.eventName = formData.eventName;
-            notification.typeNotification = formData.typeNotification;
+            notification.senderId = jsonData.senderId;
+            notification.receiverId = jsonData.receiverId;
+            notification.title = jsonData.title;
+            notification.body = jsonData.body;
+            notification.providerName = jsonData.providerName;
+            notification.eventName = jsonData.eventName;
+            notification.type = jsonData.type;
 
             const createdProvider = await this.createNotificationUseCase.run(notification);
-
-            await this.sendNotificationToDevice(notification, targetDeviceToken, formData.title, formData.body);
 
             return res.status(201).json(createdProvider);
         } catch (error) {
             console.error(error);
             saveLogFile(error);
             return res.status(500).json({ error: 'Internal server error' });
-        }
-    }
-
-    private async sendNotificationToDevice(notification: Notification, deviceToken: string, title: string, body: string){
-        try {
-            const message: admin.messaging.Message = {
-                token: deviceToken,
-                notification: {
-                    title: title,
-                    body: body,
-                },
-                data: {
-                    senderId: String(notification.senderId),
-                    receiverId: String(notification.receiverId),
-                    providerName: notification.providerName,
-                    eventName: notification.eventName,
-                },
-            };
-
-            await this.fcmService.send(message);
-            console.log("Notification sent")
-        } catch (error) {
-            console.error(error);
-            saveLogFile(error);
         }
     }
 }

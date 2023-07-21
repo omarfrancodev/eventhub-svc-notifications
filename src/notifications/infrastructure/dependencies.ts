@@ -9,6 +9,7 @@ import { FindAllNotificationsController } from "./controllers/FindAllnotificatio
 import { FindByIdNotificationController } from "./controllers/FindByIdNotificationController";
 import { FindByUserIdController } from "./controllers/FindByUserIdController";
 import { UpdateNotificationController } from "./controllers/UpdateNotificationController";
+import { SendNotificationController } from "./controllers/SendNotificacionController";
 
 import { NotificationRepository} from "./implementation/NotificationRepository";
 
@@ -28,5 +29,7 @@ export const findByUserIdController = new FindByUserIdController(findByUserIdUse
 
 const updateNotificationUseCase = new UpdateNotificationUseCase(notificationRepository);
 export const updateNotificationController = new UpdateNotificationController(updateNotificationUseCase, findByIdNotificationUseCase);
+
+export const sendNotificationController = new SendNotificationController(findByIdNotificationUseCase);
 
 

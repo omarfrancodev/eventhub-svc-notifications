@@ -26,7 +26,7 @@ export class NotificationRepository implements INotificationRepository {
         return this.repository.find();
     }
 
-    async findByUserId(userId: number): Promise<Notification[]> {
-        return await this.repository.findBy({ userId: userId });
+    async findByUserId(receiverId: number): Promise<Notification[]> {
+        return await this.repository.findBy({ receiverId: receiverId });
     }
 }
