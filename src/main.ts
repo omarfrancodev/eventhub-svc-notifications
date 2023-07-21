@@ -1,5 +1,4 @@
 import express from "express";
-import bodyParser from "body-parser";
 import { notificationRouter } from "./notifications/infrastructure/NotificationRouter";
 
 import moment from 'moment';
@@ -11,9 +10,9 @@ console.log(currentDateTime);
 
 const app = express();
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use("/notificaions", notificationRouter);
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use("/notifications", notificationRouter);
 
 const port = parseInt(process.env.SERVER_PORT ?? "3000");
 
