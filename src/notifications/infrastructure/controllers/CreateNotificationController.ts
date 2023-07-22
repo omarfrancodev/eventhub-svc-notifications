@@ -17,6 +17,8 @@ export class CreateNotificationController {
             const notification = new Notification();
             notification.senderId = jsonData.senderId;
             notification.receiverId = jsonData.receiverId;
+            notification.eventId = jsonData.eventId;
+            notification.providerId = jsonData.providerId;
             notification.title = jsonData.title;
             notification.body = jsonData.body;
             notification.providerName = jsonData.providerName;

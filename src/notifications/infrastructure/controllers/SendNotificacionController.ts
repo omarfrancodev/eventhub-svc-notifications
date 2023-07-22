@@ -36,13 +36,12 @@ export class SendNotificationController {
                 data: {
                     senderId: String(notification.senderId),
                     receiverId: String(notification.receiverId),
+                    eventId: String(notification.eventId),
+                    providerId: String(notification.providerId),
                     providerName: notification.providerName,
                     eventName: notification.eventName,
                     type: notification.type
                 },
-                // android: {
-                //     priority: "high",
-                // },
             };
             const response = await this.fcmService.send(message);
             console.log("Successfully sent notification:", response)

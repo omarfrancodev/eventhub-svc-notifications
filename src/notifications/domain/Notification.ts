@@ -12,6 +12,12 @@ export class Notification extends BaseEntity {
     receiverId!: number;
 
     @Column()
+    eventId!: number;
+
+    @Column()
+    providerId!: number;
+
+    @Column()
     title!: string;
 
     @Column()
